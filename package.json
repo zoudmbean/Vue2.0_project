@@ -12,6 +12,7 @@
   },
   "dependencies": {
     "axios": "^0.21.0",
+    "mockjs": "^1.0.1-beta3",
     "swiper": "^4.2.6",
     "view-router": "^0.2.3",
     "vue": "^2.5.2",
