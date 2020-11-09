@@ -11,7 +11,7 @@
     </TopHeader>
     <!--首页导航-->
     <nav class="msite_nav">
-      <div class="swiper-container">
+      <div class="swiper-container" v-if="categorys.length">
         <div class="swiper-wrapper">
           <div class="swiper-slide" v-for="(category,index) in categorysArr" :key="index+Math.random()">
             <a href="javascript:" class="link_to_food" v-for="c in category" :key="c.id">
@@ -25,6 +25,7 @@
         <!-- Add Pagination -->
         <div class="swiper-pagination"></div>
       </div>
+      <img src="./msite_back.svg" alt="back" v-else/>
     </nav>
     <!--首页附近商家-->
     <div class="msite_shop_list">
@@ -32,6 +33,7 @@
         <i class="iconfont icon-xuanxiang"></i>
         <span class="shop_header_title">附近商家</span>
       </div>
+      <!-- shopList不用vuex，用属性传值的方式来完成  原因是，练习一下传值问题 -->
       <ShopList :shops="shops"/>
     </div>
   </section>
@@ -49,8 +51,6 @@
   export default {
     name: 'MSite',
     mounted () {
-      // 初始化swiper
-      this.initSwiper();
       // 初始化分类
       this.getCategorys();
       // 初始化首页商家列表
@@ -83,30 +83,37 @@
         return arr;
       }
     },
-    methods:{
-      ...mapActions(['getShops','getCategorys']),
-      initSwiper(){
-        new Swiper ('.swiper-container', {
-          //direction: 'vertical', // 垂直切换选项
-          loop: true, // 循环模式选项
+    watch:{
+      categorys(value){
+        // 界面更新就立即创建swiper对象
+        // $nextTick 表示一旦界面完成更新，就立即它的回调函数，注意，此语句要写在数据更新之后，一般与watch结合使用
+        this.$nextTick(() => {
+          // 初始化swiper
+          new Swiper ('.swiper-container', {
+            //direction: 'vertical', // 垂直切换选项
+            loop: true, // 循环模式选项
 
-          // 如果需要分页器
-          pagination: {
-            el: '.swiper-pagination',
-          },
+            // 如果需要分页器
+            pagination: {
+              el: '.swiper-pagination',
+            },
 
-          // 如果需要前进后退按钮
-          navigation: {
-            nextEl: '.swiper-button-next',
-            prevEl: '.swiper-button-prev',
-          },
+            // 如果需要前进后退按钮
+            navigation: {
+              nextEl: '.swiper-button-next',
+              prevEl: '.swiper-button-prev',
+            },
 
-          // 如果需要滚动条
-          scrollbar: {
-            el: '.swiper-scrollbar',
-          },
-        })
+            // 如果需要滚动条
+            scrollbar: {
+              el: '.swiper-scrollbar',
+            },
+          })
+        });
       }
+    },
+    methods:{
+      ...mapActions(['getShops','getCategorys'])
     },
     components:{
       TopHeader,
