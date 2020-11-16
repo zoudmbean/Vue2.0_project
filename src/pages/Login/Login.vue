@@ -12,8 +12,12 @@
         <form>
           <div :class="{'on':loginWay}">
             <section class="login_message">
-              <input type="tel" maxlength="11" placeholder="手机号">
-              <button disabled="disabled" class="get_verification">获取验证码</button>
+              <input type="tel" maxlength="11" placeholder="手机号" v-model="phone">
+              <button :disabled="!rightPhone" class="get_verification"
+                      :class="{right_phone:rightPhone}"
+                      @click.prevent="getCode">
+                {{computeTime>0?`已发送(${computeTime}s)`:'获取验证码'}}
+              </button>
             </section>
             <section class="login_verification">
               <input type="tel" maxlength="8" placeholder="验证码">
@@ -26,13 +30,14 @@
           <div :class="{'on':!loginWay}">
             <section>
               <section class="login_message">
-                <input type="tel" maxlength="11" placeholder="手机/邮箱/用户名">
+                <input type="tel" maxlength="11" placeholder="手机/邮箱/用户名" v-model="username">
               </section>
               <section class="login_verification">
-                <input type="tel" maxlength="8" placeholder="密码">
-                <div class="switch_button off">
-                  <div class="switch_circle"></div>
-                  <span class="switch_text">...</span>
+                <input type="password" maxlength="8" placeholder="密码" v-if = "!showPwd" v-model="pwd">
+                <input type="text" maxlength="8" placeholder="密码" v-else v-model="pwd">
+                <div class="switch_button off" :class="showPwd ? 'on' : 'off'" @click="showPwd = !showPwd">
+                  <div class="switch_circle on" :class="{right:showPwd}"></div>
+                  <span class="switch_text">{{showPwd?'abc':'...'}}</span>
                 </div>
               </section>
               <section class="login_message">
@@ -57,7 +62,30 @@
     name: 'Login',
     data(){
       return {
-        "loginWay":true     // 登录方式   true表示手机号登录   false表示账号密码登录
+        "loginWay":true,     // 登录方式   true表示手机号登录   false表示账号密码登录
+        phone:'',
+        showPwd:false,      // 是否显示密码
+        username:'',        // 用户登录名
+        pwd:'',             // 用户密码
+        computeTime:0
+      }
+    },
+    computed:{
+      rightPhone(){
+        return /^1\d{10}$/.test(this.phone);
+      }
+    },
+    methods:{
+      getCode(){
+        if(this.computeTime <= 0 ){
+          this.computeTime = 30;
+          const intervalId = setInterval(()=>{
+            if(this.computeTime <= 0 ){
+              clearInterval(intervalId);
+            }
+            this.computeTime -- ;
+          },1000);
+        }
       }
     }
   }
@@ -124,6 +152,8 @@
                 color #ccc
                 font-size 14px
                 background transparent
+                &.right_phone
+                  color blueviolet
             .login_verification
               position relative
               margin-top 16px
@@ -147,7 +177,7 @@
                 &.off
                   background #fff
                   .switch_text
-                    float right
+                    float left
                     color #ddd
                 &.on
                   background #02a774
@@ -163,6 +193,8 @@
                   background #fff
                   box-shadow 0 2px 4px 0 rgba(0,0,0,.1)
                   transition transform .3s
+                  &.right
+                    transform translateX(35px)
             .login_hint
               margin-top 12px
               color #999
