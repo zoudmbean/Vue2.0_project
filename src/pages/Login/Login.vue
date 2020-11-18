@@ -9,7 +9,7 @@
         </div>
       </div>
       <div class="login_content">
-        <form>
+        <form @submit.prevent="login">
           <div :class="{'on':loginWay}">
             <section class="login_message">
               <input type="tel" maxlength="11" placeholder="手机号" v-model="phone">
@@ -20,7 +20,7 @@
               </button>
             </section>
             <section class="login_verification">
-              <input type="tel" maxlength="8" placeholder="验证码">
+              <input type="tel" maxlength="8" v-model="code" placeholder="验证码">
             </section>
             <section class="login_hint">
               温馨提示：未注册硅谷外卖帐号的手机号，登录时将自动注册，且代表已同意
@@ -41,8 +41,8 @@
                 </div>
               </section>
               <section class="login_message">
-                <input type="text" maxlength="11" placeholder="验证码">
-                <img class="get_verification" src="./images/captcha.svg" alt="captcha">
+                <input type="text" maxlength="11" v-model="code" placeholder="验证码">
+                <img class="get_verification" src="./images/captcha.svg" alt="captcha" @click="getSvgCode">
               </section>
             </section>
           </div>
@@ -54,20 +54,27 @@
         <i class="iconfont icon-jiantou2"></i>
       </a>
     </div>
+    <AlertTip :alertText="alertText" v-show="isShowAlert" @closeTip="closeTip"></AlertTip>
   </section>
 </template>
 
 <script>
+  import AlertTip from '../../components/AlertTip/AlertTip'
+  import {reqSendCode,reqSmsLogin} from '../../api'
+  import {RECEIVE_ADDRESS} from '../../store/mutation-types'
   export default {
     name: 'Login',
     data(){
       return {
-        "loginWay":true,     // 登录方式   true表示手机号登录   false表示账号密码登录
-        phone:'',
+        loginWay:true,     // 登录方式   true表示手机号登录   false表示账号密码登录
+        phone:'',         // 手机号
         showPwd:false,      // 是否显示密码
         username:'',        // 用户登录名
         pwd:'',             // 用户密码
-        computeTime:0
+        code:'',          // 验证码
+        computeTime:0,
+        alertText:'',        // 提示框内容
+        isShowAlert:false   // 是否显示提示框，默认false，不显示
       }
     },
     computed:{
@@ -76,7 +83,50 @@
       }
     },
     methods:{
-      getCode(){
+      getSvgCode(event){
+        // event.target.src = "./images/shop_back.svg";
+        // event.target.src = "http://localhost:4000/captcha?time="+Date.now();      // 获取后端返回的SVGA   因为后端没写，这里就用本地的，不做校验  后面加参数是因为src值不变，就不会重新发请求
+        var c = Math.round(10);
+        console.log("验证码：" + c);
+      },
+      showAlertTips(showText){
+        this.isShowAlert = true;
+        this.alertText = showText;
+      },
+      closeTip(){   // 关闭提示框
+        this.isShowAlert = false;
+      },
+      login(){
+        const {loginWay,code,username,pwd} = this;
+        if(loginWay){   // 手机号登录
+          // 1. 判断手机号
+          if(!this.rightPhone){
+            this.showAlertTips("手机号不正确！");
+            return ;
+          }
+          // 2. 判断验证码
+          if(!code){
+            this.showAlertTips("验证码不正确！");
+            return ;
+          }
+        } else {  // 账号密码登录
+          // 1. 判断用户名
+          if(!username){
+            this.showAlertTips("用户名不能为空！");
+            return ;
+          }
+          if(!pwd){
+            this.showAlertTips("密码不能为空！");
+            return ;
+          }
+          if(!code){
+            this.showAlertTips("验证码不能为空！");
+            return ;
+          }
+        }
+      },
+      async getCode(){
+        // 倒计时
         if(this.computeTime <= 0 ){
           this.computeTime = 30;
           const intervalId = setInterval(()=>{
@@ -86,7 +136,17 @@
             this.computeTime -- ;
           },1000);
         }
+        // 模拟发送短信
+        const result = await reqSendCode();
+        if (result.result === 'SUCCESS') {
+          this.showAlertTips("发送成功！验证码是：" + result.data[0].msg );
+        } else {
+          this.showAlertTips("发送失败！"+result.data[1].msg);
+        }
       }
+    },
+    components:{
+      AlertTip
     }
   }
 </script>
