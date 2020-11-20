@@ -41,7 +41,8 @@ export const reqSendCode = () => ajax('/sendcode')
 export const reqSmsLogin = (phone, code) => ajax('/login_sms', {phone, code}, 'POST')
 
 // 9、根据会话获取用户信息
-export const reqUserInfo = () => ajax(BASE_URL+'/userinfo')
+export const reqUserInfo = () => ajax('/userinfo')
+
 // 10、用户登出
 export const reqLogout = () => ajax(BASE_URL+'/logout')
 

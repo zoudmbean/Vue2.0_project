@@ -14,10 +14,11 @@
     mounted () {
       // this.$store.dispatch('getAddress');    // 原始方式调用
       this.getAddress();
+      this.getUserInfo();
     },
 
     methods:{
-      ...mapActions(['getAddress'])
+      ...mapActions(['getAddress','getUserInfo'])
     },
 
     components:{

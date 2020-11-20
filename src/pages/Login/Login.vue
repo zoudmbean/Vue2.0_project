@@ -149,7 +149,7 @@
         if(result.code * 1 === 0){    // 登陆成功
           const data = result.data;
           // 更新userInfo的信息
-          this.$store.dispatch('recordUser',{_id:data._id,name:data.name,phone:data.phone});
+          this.$store.dispatch('recordUser',{_id:data._id,name:this.username,phone:this.phone});
           // 登陆成功，页面跳转到个人中心
           this.$router.push("/profile");
         } else {    // 登陆失败

@@ -82,7 +82,7 @@ export default {
   async getUserInfo({commit}) {
     const result = await reqUserInfo()
     if (result.result === 'SUCCESS') {
-      const userInfo = result.data
+      const userInfo = result.data.data
       commit(RECEIVE_USER_INFO, {userInfo})
     }
   },

@@ -23,3 +23,6 @@ Mock.mock('/login_pwd', (options) =>{
   return Mock.mock(data.login_pwd);
 });
 
+// 获取用户信息
+Mock.mock('/userinfo', {"result":"SUCCESS","data":data.userInfo});
+
