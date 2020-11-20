@@ -42,7 +42,7 @@
               </section>
               <section class="login_message">
                 <input type="text" maxlength="11" v-model="code" placeholder="验证码">
-                <img class="get_verification" src="./images/captcha.svg" alt="captcha" @click="getSvgCode">
+                <img class="get_verification" src="./images/captcha.svg" alt="captcha" @click="getSvgCode" :ref="captcha">
               </section>
             </section>
           </div>
@@ -60,8 +60,7 @@
 
 <script>
   import AlertTip from '../../components/AlertTip/AlertTip'
-  import {reqSendCode,reqSmsLogin} from '../../api'
-  import {RECEIVE_ADDRESS} from '../../store/mutation-types'
+  import {reqSendCode,reqSmsLogin,reqPwdLogin} from '../../api'
   export default {
     name: 'Login',
     data(){
@@ -86,6 +85,7 @@
       getSvgCode(event){
         // event.target.src = "./images/shop_back.svg";
         // event.target.src = "http://localhost:4000/captcha?time="+Date.now();      // 获取后端返回的SVGA   因为后端没写，这里就用本地的，不做校验  后面加参数是因为src值不变，就不会重新发请求
+        // this.$refs.captcha.src = 'http://localhost:4000/captcha?time=' + Date.now()  // 使用ref属性方便扩展
         var c = Math.round(10);
         console.log("验证码：" + c);
       },
@@ -96,7 +96,8 @@
       closeTip(){   // 关闭提示框
         this.isShowAlert = false;
       },
-      login(){
+      async login(){
+        let result
         const {loginWay,code,username,pwd} = this;
         if(loginWay){   // 手机号登录
           // 1. 判断手机号
@@ -109,6 +110,14 @@
             this.showAlertTips("验证码不正确！");
             return ;
           }
+          if(!/^\d{6}$/.test(code)){  // 验证码必须为6位数字
+            this.showAlertTips("验证码必须为6位数字！");
+            return ;
+          }
+
+          // 校验成功，开始登陆
+          result = await reqSmsLogin(this.rightPhone,code);
+
         } else {  // 账号密码登录
           // 1. 判断用户名
           if(!username){
@@ -123,15 +132,37 @@
             this.showAlertTips("验证码不能为空！");
             return ;
           }
+          if("wksv" != code){  // 验证码必须为6位数字
+            this.showAlertTips("验证码不正确！");
+            return ;
+          }
+          // 校验通过，开始登陆
+          result = await reqPwdLogin(username,pwd,code);
+        }
+
+        // 关闭定时器
+        if(!this.computeTime || this.computeTime <= 0 ){
+          clearInterval(this.intervalId);
+        }
+
+        // 获取返回结果
+        if(result.code * 1 === 0){    // 登陆成功
+          const data = result.data;
+          // 更新userInfo的信息
+          this.$store.dispatch('recordUser',{_id:data._id,name:data.name,phone:data.phone});
+          // 登陆成功，页面跳转到个人中心
+          this.$router.push("/profile");
+        } else {    // 登陆失败
+          this.showAlertTips(result.msg);
         }
       },
       async getCode(){
         // 倒计时
         if(this.computeTime <= 0 ){
           this.computeTime = 30;
-          const intervalId = setInterval(()=>{
+          this.intervalId = setInterval(()=>{
             if(this.computeTime <= 0 ){
-              clearInterval(intervalId);
+              clearInterval(this.intervalId);
             }
             this.computeTime -- ;
           },1000);

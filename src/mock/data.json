@@ -2277,29 +2277,22 @@
       ]
     }
   ],
-  "userInfo": [{
+  "userInfo": {
     "code": 0,
-    "data": [{
+    "data": {
       "_id": "5a9cd9c6ad5b2d34d42b385d",
-      "phone": "13716962779"
-    },{
-      "code": 1,
-      "msg": "请先登陆"
-    }]
-  }],
-  "login_pwd": [
+      "phone": "13716962779",
+      "name": "abc"
+    }
+  },
+  "login_pwd":
     {
       "code": 0,
       "data": {
         "_id": "5a9cd9c6ad5b2d34d42b385d",
-        "name": "aaa"
+        "name": "abc"
       }
     },
-    {
-      "code": 1,
-      "msg": "用户名或密码不正确!"
-    }
-  ],
   "sendcode": [
     {
       "code": 0,
@@ -2310,7 +2303,7 @@
       "msg": "短信验证码发送失败"
     }
   ],
-  "login_sms": [
+  "login_sms":
     {
       "code": 0,
       "data": {
@@ -2318,11 +2311,6 @@
         "phone": "13026336905"
       }
     },
-    {
-      "code": 1,
-      "msg": "手机号或验证码不正确"
-    }
-  ],
   "logout": {
     "code": 0
   }

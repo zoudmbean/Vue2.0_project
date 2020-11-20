@@ -10,3 +10,16 @@ Mock.mock('/shops',{"result":"SUCCESS","data":data.shops});
 // 获取一次性验证码
 Mock.mock('/sendcode',{"result":"SUCCESS","data":data.sendcode});
 
+// 手机号登陆
+// Mock.mock('/login_sms',{"result":"SUCCESS","data":data.login_sms});
+Mock.mock('/login_sms', (options) =>{
+  // 最佳实践，将请求和参数都打印出来，以便调试
+  return Mock.mock(data.login_sms);
+});
+
+// 用户名密码登录
+Mock.mock('/login_pwd', (options) =>{
+  // 最佳实践，将请求和参数都打印出来，以便调试
+  return Mock.mock(data.login_pwd);
+});
+
