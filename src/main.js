@@ -4,6 +4,8 @@
 import Vue from 'vue'
 import App from './App'
 
+import {Button} from 'mint-ui'
+
 import router from './router/route.js'
 import store from './store'
 
@@ -17,6 +19,9 @@ const routerPush = Router.prototype.push
 Router.prototype.push = function push(location) {
   return routerPush.call(this, location).catch(error=> error)
 }
+
+// 注册全局组件
+Vue.component(Button.name,Button);
 
 /*
 * 主入口

@@ -44,7 +44,7 @@ export const reqSmsLogin = (phone, code) => ajax('/login_sms', {phone, code}, 'P
 export const reqUserInfo = () => ajax('/userinfo')
 
 // 10、用户登出
-export const reqLogout = () => ajax(BASE_URL+'/logout')
+export const reqLogout = () => ajax('/logout')
 
 /**
  * 获取商家信息

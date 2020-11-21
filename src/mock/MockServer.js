@@ -26,3 +26,6 @@ Mock.mock('/login_pwd', (options) =>{
 // 获取用户信息
 Mock.mock('/userinfo', {"result":"SUCCESS","data":data.userInfo});
 
+// 获取用户信息
+Mock.mock('/logout', {"result":"SUCCESS"});
+

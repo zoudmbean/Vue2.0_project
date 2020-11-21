@@ -88,16 +88,22 @@
         </div>
       </a>
     </section>
+    <section class="profile_my_order border-1px" v-if="userInfo._id">
+      <mt-button type="danger" size="large" @click="logout">退出登录</mt-button>
+    </section>
   </section>
 </template>
 
 <script>
-  import {mapState} from 'vuex'
+  import {mapState,mapActions} from 'vuex'
   import TopHeader from '../../components/TopHeader/TopHeader'
   export default {
     name: 'Profile',
     computed:{
       ...mapState(['userInfo'])
+    },
+    methods:{
+      ...mapActions(['logout'])
     },
     components:{
       TopHeader
