@@ -23,6 +23,9 @@
   import ShopHeader from '../../components/ShopHeader/ShopHeader'
   export default {
     name: 'Shop',
+    mounted () {
+      this.$store.dispatch('getShopInfo')
+    },
     components:{
       ShopHeader
     }

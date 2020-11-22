@@ -3,6 +3,7 @@
 * */
 import Mock from 'mockjs'
 import data from './data'
+import shop from './shop'
 
 // 根据经纬度获取商铺列表
 Mock.mock('/shops',{"result":"SUCCESS","data":data.shops});
@@ -28,4 +29,7 @@ Mock.mock('/userinfo', {"result":"SUCCESS","data":data.userInfo});
 
 // 获取用户信息
 Mock.mock('/logout', {"result":"SUCCESS"});
+
+// 获取商家信息
+Mock.mock('/info',{"result":"SUCCESS","data":data.info})
 
