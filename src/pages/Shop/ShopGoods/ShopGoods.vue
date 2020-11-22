@@ -3,8 +3,8 @@
     <div class="goods">
       <div class="menu-wrapper">
         <ul>
-          <!-- 选中了才给样式 current -->
-          <li class="menu-item" v-for="(good,index) in goods" :key="index">
+          <!-- 选中了才给样式 current  当 index等于当前分类currentIndex下标的时候，显示 -->
+          <li class="menu-item" v-for="(good,index) in goods" :key="index" :class="{current:index===currentIndex}">
             <span class="text bottom-border-1px">
               <img class="icon" :src="good.icon" v-if="good.icon">
               {{good.name}} </span>
@@ -68,14 +68,28 @@
         this.$nextTick(() => {    // 列表数据更新显示之后执行
           // 1. 初始化滚动条
           this._initScroll();
-
+          // 2. 初始化tops
+          this._initTops();
         });
       })
     },
     computed: {
       ...mapState(['goods']),
-      currentIndex(){     // 计算得到当前分类的下标
+      // 计算得到当前分类的下标
+      currentIndex(){       // 初始和相关数据发生了变化就会执行
+        // 1.得到条件数据
+        const {scrollY,tops} = this;
 
+        // 2. 根据条件计算结果（当 当前scrollY = tops的某个元素的时候，返回其下标值）
+        const index = tops.findIndex((top,index) => {
+
+          // 当 当前scrollY 大于等于 tops中的某个元素并且小于其下一个top的时候，返回top
+          return scrollY >= top && scrollY < tops[index + 1]
+
+        });
+
+        // 3. 返回
+        return index;
       }
     },
     methods:{
@@ -88,7 +102,7 @@
         // 2. 收集
         //    2.1 找到所有分类的li的伪装数组  这里使用$ref.foodsUl是为了缩小查找范围，从ref="foodsUl"的标签下开始查找
         //        const list = this.$ref.foodsUl.children;
-        const list = this.$ref.foodsUl.getElementsByClassName("food-list-hook");
+        const list = this.$refs.foodsUl.getElementsByClassName("food-list-hook");
         //    2.2 将伪数组转成真数组
         let listArray = Array.prototype.slice.call(list);
         //    2.3 循环遍历，并计算每一个li标签的top坐标
