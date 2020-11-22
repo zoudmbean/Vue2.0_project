@@ -115,7 +115,7 @@ export default {
     }
   },
 
-  // 异步获取商家商品列表
+  // 异步获取商家商品列表   callback为传入的回调函数
   async getShopGoods({commit}, callback) {
     const result = await reqShopGoods()
     if (result.result === 'SUCCESS') {

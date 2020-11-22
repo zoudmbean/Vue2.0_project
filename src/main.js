@@ -4,6 +4,7 @@
 import Vue from 'vue'
 import App from './App'
 
+// 引入mint-ui
 import {Button} from 'mint-ui'
 
 import router from './router/route.js'

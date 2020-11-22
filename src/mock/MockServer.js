@@ -33,3 +33,6 @@ Mock.mock('/logout', {"result":"SUCCESS"});
 // 获取商家信息
 Mock.mock('/info',{"result":"SUCCESS","data":data.info})
 
+// 获取商家商品
+Mock.mock('/goods',{"result":"SUCCESS","data":data.goods})
+

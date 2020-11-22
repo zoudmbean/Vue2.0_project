@@ -86,6 +86,13 @@
       </div>
     </transition>
 
+    <!--
+      定义进入和离开动画
+      fade-enter-active,&.fade-leave-active
+        transition opacity .5s
+      fade-enter,&.fade-leave-to
+        opacity 0
+    -->
     <transition name="fade">
       <div class="activity-sheet" v-show="supportShow" @click="supportShow=!supportShow">
         <div class="activity-sheet-content">
