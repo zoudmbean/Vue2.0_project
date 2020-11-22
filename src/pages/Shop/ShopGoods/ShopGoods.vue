@@ -12,7 +12,7 @@
         </ul>
       </div>
       <div class="foods-wrapper">
-        <ul>
+        <ul ref="foodsUl">
           <li class="food-list-hook" v-for="(good,index) in goods" :key="index">
             <h1 class="title">{{good.name}}</h1>
             <ul>
@@ -42,6 +42,12 @@
   import BScroll from 'better-scroll'
   export default {
     name: 'ShopGoods',
+    data(){
+      return {
+        scrollY:0,      // 在滑动过程中，实时收集 Y 坐标
+        tops:[],        // 列表第一次显示的后
+      }
+    },
     mounted () {
       // 在MSite中，通过watch与$nextTick监听列表展示执行某段代码
       // 这里使用另一种方式，回调函数+$nextTick的方式    当数据更新之后，在回调函数中执行需要执行的代码
@@ -60,22 +66,94 @@
       * */
       this.$store.dispatch('getShopGoods',() => {
         this.$nextTick(() => {    // 列表数据更新显示之后执行
-          // 需要列表显示之后创建对象
-          /*官网写法
-          * const bs = new BScroll('.wrapper', {
-              pullUpLoad: true,
-              scrollbar: true,
-              pullDownRefresh: true
-              // and so on
-            })
-          * */
-          new BScroll('.menu-wrapper');
-          new BScroll('.foods-wrapper');
+          // 1. 初始化滚动条
+          this._initScroll();
+
         });
       })
     },
     computed: {
-      ...mapState(['goods'])
+      ...mapState(['goods']),
+      currentIndex(){     // 计算得到当前分类的下标
+
+      }
+    },
+    methods:{
+      // 初始化tops
+      _initTops(){
+        // 1. 初始化tops
+        const tops = [];
+        let top = 0;      // 初始为0
+        tops.push(top);
+        // 2. 收集
+        //    2.1 找到所有分类的li的伪装数组  这里使用$ref.foodsUl是为了缩小查找范围，从ref="foodsUl"的标签下开始查找
+        //        const list = this.$ref.foodsUl.children;
+        const list = this.$ref.foodsUl.getElementsByClassName("food-list-hook");
+        //    2.2 将伪数组转成真数组
+        let listArray = Array.prototype.slice.call(list);
+        //    2.3 循环遍历，并计算每一个li标签的top坐标
+        listArray.forEach( li => {
+          /* 预备知识
+          *   网页可见区域高：document.body.clientHeight
+              网页正文全文高：document.body.scrollHeight
+              网页可见区域高（包括边线的高）：document.body.offsetHeight
+              网页被卷去的高：document.body.scrollTop
+              屏幕分辨率高：window.screen.height
+              *
+              每个HTML元素都具有clientHeight offsetHeight scrollHeight offsetTop scrollTop 这5个和元素高度、滚动、位置相关的属性
+
+              clientHeight和offsetHeight属性和元素的滚动、位置没有关系它代表元素的高度，
+              其中：clientHeight：包括padding但不包括border、水平滚动条、margin的元素的高度。对于inline的元素这个属性一直是0，单位px，只读元素。
+              offsetHeight：包括padding、border、水平滚动条，但不包括margin的元素的高度。对于inline的元素这个属性一直是0，单位px，只读元素。
+              接下来讨论出现有滚动条时的情况：
+                当本元素的子元素比本元素高且overflow=scroll时，本元素会scroll，这时：
+                scrollHeight: 因为子元素比父元素高，父元素不想被子元素撑的一样高就显示出了滚动条，在滚动的过程中本元素有部分被隐藏了，
+                scrollHeight代表包括当前不可见部分的元素的高度。而可见部分的高度其实就是clientHeight，也就是scrollHeight>=clientHeight恒成立。
+                在有滚动条时讨论scrollHeight才有意义，在没有滚动条时scrollHeight==clientHeight恒成立。单位px，只读元素。
+              scrollTop: 代表在有滚动条时，滚动条向下滚动的距离也就是元素顶部被遮住部分的高度。在没有滚动条时scrollTop==0恒成立。单位px，可读可设置。
+              offsetTop: 当前元素顶部距离最近父元素顶部的距离,和有没有滚动条没有关系。单位px，只读元素。
+              offsetTop: 当前元素顶部距离最近父元素顶部的距离,和有没有滚动条没有关系。单位px，只读元素。
+          *
+          * */
+          top += li.clientHeight    // 可见区域高
+          tops.push(top);
+        });
+
+        // 3. 更新状态
+        this.tops = tops;
+      },
+      // 初始化滚动条
+      _initScroll(){
+        // 需要列表显示之后创建对象
+        /*官网写法
+        * const bs = new BScroll('.wrapper', {
+            pullUpLoad: true,
+            scrollbar: true,
+            pullDownRefresh: true
+            // and so on
+          })
+        * */
+        new BScroll('.menu-wrapper');
+
+        /*
+        * 食品列表滚动：
+        *   配置对象属性有很多：
+        *     probeType：默认值为0，表示不派发事件，可取值有1 2 3 三个值。
+        *       作用：获取滚动位置的参数。1 非实时   2 在屏幕滚动的时候实时派发scroll事件  3 派发最频繁，只要有滑动就会派发，包括惯性滑动
+        * */
+        const foodWrapper = new BScroll('.foods-wrapper',{
+          probeType:2   // 惯性滑动不会触发
+        });
+
+        /*
+          给food列表绑定监听（派发事件）
+        * 回调函数的参数可以是一个event，event中有xy坐标，也可以是{x,y}
+        * */
+        foodWrapper.on('scroll',({x,y}) => {
+          // console.log(y);
+          this.scrollY = Math.abs(y);
+        });
+      }
     }
   }
 </script>
