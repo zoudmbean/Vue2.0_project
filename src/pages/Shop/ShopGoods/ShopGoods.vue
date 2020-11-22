@@ -4,7 +4,9 @@
       <div class="menu-wrapper">
         <ul>
           <!-- 选中了才给样式 current  当 index等于当前分类currentIndex下标的时候，显示 -->
-          <li class="menu-item" v-for="(good,index) in goods" :key="index" :class="{current:index===currentIndex}">
+          <li class="menu-item" v-for="(good,index) in goods" :key="index"
+              :class="{current:index===currentIndex}"
+          @click="clickMenuItem(index)">
             <span class="text bottom-border-1px">
               <img class="icon" :src="good.icon" v-if="good.icon">
               {{good.name}} </span>
@@ -147,7 +149,9 @@
             // and so on
           })
         * */
-        new BScroll('.menu-wrapper');
+        this.menuWrapper = new BScroll('.menu-wrapper',{
+          click:true        // 让点击事件生效
+        });
 
         /*
         * 食品列表滚动：
@@ -155,18 +159,38 @@
         *     probeType：默认值为0，表示不派发事件，可取值有1 2 3 三个值。
         *       作用：获取滚动位置的参数。1 非实时   2 在屏幕滚动的时候实时派发scroll事件  3 派发最频繁，只要有滑动就会派发，包括惯性滑动
         * */
-        const foodWrapper = new BScroll('.foods-wrapper',{
+        this.foodWrapper = new BScroll('.foods-wrapper',{
+          click:true,
           probeType:2   // 惯性滑动不会触发
         });
 
         /*
-          给food列表绑定监听（派发事件）
+          给food列表绑定滚动监听（派发事件）
         * 回调函数的参数可以是一个event，event中有xy坐标，也可以是{x,y}
         * */
-        foodWrapper.on('scroll',({x,y}) => {
+        this.foodWrapper.on('scroll',({x,y}) => {
           // console.log(y);
           this.scrollY = Math.abs(y);
         });
+
+        /*绑定滚动结果监听
+          现在的问题是：当滚动惯性滑到到最后面的时候，因为probeType的值为2，所以，惯性滑动不会触发事件派发，因此tops中没有滚动结束时候的坐标值
+          解决方式：
+            方式一：将probeType的值改为3  该方式效果好，但是，性能消耗大
+            方式二：添加滚动结束监听
+        *
+        * */
+        this.foodWrapper.on('scrollEnd',({x,y}) => {
+          this.scrollY = Math.abs(y);
+        });
+      },
+
+      clickMenuItem(index){
+        // 加上这句话，可以让左侧实时出效果
+        this.scrollY = this.tops[index];
+        // 滚动到哪里   参数  x  y  time
+        // 作用于scrollEnd事件监听
+        this.foodWrapper.scrollTo(0,-this.tops[index],100);   // 滚动的坐标是负数
       }
     }
   }
