@@ -9,10 +9,10 @@
           transform translateX(15px) rotate(180deg)   X轴向右移动15px  旋转角度180度
     -->
     <transition name="move">
-      <div class="iconfont icon-remove_circle_outline" v-show="food.count" @click="changeFoodCount(false)"></div>
+      <div class="iconfont icon-remove_circle_outline" v-show="food.count" @click.stop="changeFoodCount(false)"></div>
     </transition>
     <div class="cart-count" v-show="food.count">{{food.count}}</div>
-    <div class="iconfont icon-add_circle" @click="changeFoodCount(true)"></div>
+    <div class="iconfont icon-add_circle" @click.stop="changeFoodCount(true)"></div>
   </div>
 </template>
 

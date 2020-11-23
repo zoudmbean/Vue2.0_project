@@ -15,10 +15,10 @@
       </div>
       <div class="foods-wrapper">
         <ul ref="foodsUl">
-          <li class="food-list-hook" v-for="(good,index) in goods" :key="index">
+          <li class="food-list-hook" v-for="(good,index) in goods" :key="index" >
             <h1 class="title">{{good.name}}</h1>
             <ul>
-              <li class="food-item bottom-border-1px" v-for="(food,index) in good.foods" :key="index">
+              <li class="food-item bottom-border-1px" v-for="(food,index) in good.foods" :key="index" @click="showFood(food)">
                 <div class="icon">
                   <img width="57" height="57" :src="food.icon">
                 </div>
@@ -28,7 +28,7 @@
                   <div class="price"><span class="now">￥{{food.price}}</span></div>
                   <div class="price" v-if="food.oldPrice"><span class="old">￥{{food.oldPrice}}</span></div>
                   <div class="cartcontrol-wrapper">
-                    <CarControl :food="food"/>
+                    <CarControl :food="food" />
                   </div>
                 </div>
               </li>
@@ -37,6 +37,7 @@
         </ul>
       </div>
     </div>
+    <Food :food="food" ref="cFood"/>
   </div>
 </template>
 
@@ -45,12 +46,14 @@
   // 引入better-scroll
   import BScroll from 'better-scroll'
   import CarControl from '../../../components/CarControl/CarControl'
+  import Food from '../../../components/Food/Food'
   export default {
     name: 'ShopGoods',
     data(){
       return {
         scrollY:0,      // 在滑动过程中，实时收集 Y 坐标
         tops:[],        // 列表第一次显示的后
+        food:{}         // 需要显示的food
       }
     },
     mounted () {
@@ -194,10 +197,19 @@
         // 滚动到哪里   参数  x  y  time
         // 作用于scrollEnd事件监听
         this.foodWrapper.scrollTo(0,-this.tops[index],100);   // 滚动的坐标是负数
+      },
+
+      showFood(food){
+        // 赋值
+        this.food = food;
+        // 父组件调用子组件的方法(在父组件中调用子组件对象的方法)
+        // 通过在子组件上定义ref属性，通过this.$refs.(ref属性值)的方式，可以得到子组件对象，通过该对象可以操作子组件的方法
+        // 注意：这里在父组件传一个isFoodshow比较简单，为了练习父组件调用子组件的方法，特地使用了该方式
+        this.$refs.cFood.toggleFoodShow();
       }
     },
     components:{
-      CarControl
+      CarControl,Food
     }
   }
 </script>
