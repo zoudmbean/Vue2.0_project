@@ -1,0 +1,30 @@
+1. stylus
+	1.1 npm install stylus stylus-loader --save-dev   
+		stylus：该包的作用是将stylus的代码转义成css代码
+		stylus-loader：webpack无法识别stylus，stylus-loader就是用来帮助webpack来识别解析stylus的
+
+2. 安装移动端滑动组件swiper：
+	npm install --save swiper
+
+3. 组件中引入css：import 'css路径'  例如：import 'swiper/dist/css/swiper.css'
+
+4. 下载axios：npm install --save axios
+
+5. 下载mint-ui
+	npm install --save mint-ui
+	实现按需打包：npm install --save-dev babel-plugin-component
+	修改bebel配置：
+		"plugins":["transform-runtime",["component",[{
+				"libraryName":"mint-ui",
+				"style":true
+			}]]]
+	使用：import {Button} from 'mint-ui'
+	注册：Vue.component(Button.name,Button)
+
+6. 下载better-scroller
+	npm install --save better-scroll
+	参考地址：https://www.npmjs.com/package/better-scroll
+
+7. 在vue中，给一个绑定了的数据新增属性的时候，如果用点的方式（例如：food.count），这时候新增的属性是没有双向绑定的，可以使用Vue提供的set函数来解决该问题。
+	Vue.set(Object,attrName,attrValue)  // 参数：对象  属性名  属性值
+	例如：Vue.set(food,'count',1);
