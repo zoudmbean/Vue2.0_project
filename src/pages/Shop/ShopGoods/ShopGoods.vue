@@ -27,7 +27,9 @@
                   <div class="extra"><span class="count">月售 {{food.sellCount}} 份</span> <span>好评率 {{food.rating}}%</span></div>
                   <div class="price"><span class="now">￥{{food.price}}</span></div>
                   <div class="price" v-if="food.oldPrice"><span class="old">￥{{food.oldPrice}}</span></div>
-                  <div class="cartcontrol-wrapper"> CartControl</div>
+                  <div class="cartcontrol-wrapper">
+                    <CarControl :food="food"/>
+                  </div>
                 </div>
               </li>
             </ul>
@@ -42,6 +44,7 @@
   import {mapState} from 'vuex'
   // 引入better-scroll
   import BScroll from 'better-scroll'
+  import CarControl from '../../../components/CarControl/CarControl'
   export default {
     name: 'ShopGoods',
     data(){
@@ -192,6 +195,9 @@
         // 作用于scrollEnd事件监听
         this.foodWrapper.scrollTo(0,-this.tops[index],100);   // 滚动的坐标是负数
       }
+    },
+    components:{
+      CarControl
     }
   }
 </script>

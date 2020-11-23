@@ -53,6 +53,9 @@ export default {
     if(!food.count) { // 第一次增加
       // food.count = 1  // 新增属性(没有数据绑定)
       /*
+      在vue中，给一个绑定了的数据新增属性的时候，如果用点的方式（例如：food.count），这时候新增的属性是没有双向绑定的，可以使用Vue提供的set函数来解决该问题。
+      Vue.set(Object,attrName,attrValue)  // 参数：对象  属性名  属性值
+      例如：Vue.set(food,'count',1);
       对象
       属性名
       属性值
