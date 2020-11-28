@@ -1,5 +1,5 @@
 1. stylus
-	1.1 npm install stylus stylus-loader --save-dev   
+	1.1 npm install stylus stylus-loader --save-dev
 		stylus：该包的作用是将stylus的代码转义成css代码
 		stylus-loader：webpack无法识别stylus，stylus-loader就是用来帮助webpack来识别解析stylus的
 
@@ -28,3 +28,7 @@
 7. 在vue中，给一个绑定了的数据新增属性的时候，如果用点的方式（例如：food.count），这时候新增的属性是没有双向绑定的，可以使用Vue提供的set函数来解决该问题。
 	Vue.set(Object,attrName,attrValue)  // 参数：对象  属性名  属性值
 	例如：Vue.set(food,'count',1);
+
+8. reduce函数的用法：arr.reduce(fn,initValue)
+  reduce函数，第一个参数为一个函数，第二个参数为初始值   该函数是一个计算结果的统计函数
+  例如：state.cartFoods.reduce((preTotal,food) => preTotal + food.count ,0);

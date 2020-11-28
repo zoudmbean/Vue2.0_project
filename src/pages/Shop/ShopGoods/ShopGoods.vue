@@ -36,6 +36,7 @@
           </li>
         </ul>
       </div>
+      <ShopCar />
     </div>
     <Food :food="food" ref="cFood"/>
   </div>
@@ -47,6 +48,7 @@
   import BScroll from 'better-scroll'
   import CarControl from '../../../components/CarControl/CarControl'
   import Food from '../../../components/Food/Food'
+  import ShopCar from '../../../components/ShopCar/ShopCar'
   export default {
     name: 'ShopGoods',
     data(){
@@ -209,7 +211,9 @@
       }
     },
     components:{
-      CarControl,Food
+      ShopCar,
+      CarControl,
+      Food
     }
   }
 </script>
