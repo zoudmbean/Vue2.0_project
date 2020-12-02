@@ -11,6 +11,8 @@ import router from './router/route.js'
 import store from './store'
 
 import './mock/mockServer' // 加载mockServer即可
+import loading from './common/imgs/loading.gif'
+import './fiters' // 加载过滤器
 
 /*
 * 解决重复路由报错的问题

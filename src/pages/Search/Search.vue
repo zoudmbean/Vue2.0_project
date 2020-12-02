@@ -33,7 +33,7 @@
 
 <script>
   import {mapState} from 'vuex'
-  import HeaderTop from '../../components/HeaderTop/HeaderTop.vue'
+  import HeaderTop from '../../components/TopHeader/TopHeader'
   export default {
 
     data () {

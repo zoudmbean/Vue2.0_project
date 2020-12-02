@@ -42,7 +42,7 @@
               </section>
               <section class="login_message">
                 <input type="text" maxlength="11" v-model="code" placeholder="验证码">
-                <img class="get_verification" src="./images/captcha.svg" alt="captcha" @click="getSvgCode" :ref="captcha">
+                <img class="get_verification" src="./images/captcha.svg" alt="captcha" @click="getSvgCode" ref="captcha">
               </section>
             </section>
           </div>

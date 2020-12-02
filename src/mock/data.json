@@ -2286,13 +2286,13 @@
     }
   },
   "login_pwd":
-    {
-      "code": 0,
-      "data": {
-        "_id": "5a9cd9c6ad5b2d34d42b385d",
-        "name": "abc"
-      }
-    },
+  {
+    "code": 0,
+    "data": {
+      "_id": "5a9cd9c6ad5b2d34d42b385d",
+      "name": "abc"
+    }
+  },
   "sendcode": [
     {
       "code": 0,
@@ -2304,14 +2304,211 @@
     }
   ],
   "login_sms":
-    {
-      "code": 0,
-      "data": {
-        "_id": "5a9cd9c6ad5b2d34d42b385d",
-        "phone": "13026336905"
-      }
-    },
+  {
+    "code": 0,
+    "data": {
+      "_id": "5a9cd9c6ad5b2d34d42b385d",
+      "phone": "13026336905"
+    }
+  },
   "logout": {
     "code": 0
-  }
+  },
+  "position": {
+    "address": "湖北省武汉市高新技术开发区",
+    "city": "武汉市",
+    "geohash": "40.10038,116.36867",
+    "latitude": "40.10038",
+    "longitude": "116.36867",
+    "name": "高新技术开发区高新六路15号"
+  },
+  "foodCategory":[
+    {
+      "id": 1,
+      "is_in_serving": true,
+      "description": "0元早餐0起送，每天都有新花样。",
+      "title": "预订早餐",
+      "link": "",
+      "image_url": "static/images/nav/1.jpg",
+      "icon_url": "",
+      "title_color": "",
+      "__v": 0
+    },
+    {
+      "id": 2,
+      "is_in_serving": true,
+      "description": "",
+      "title": "土豪推荐",
+      "link": "",
+      "image_url": "static/images/nav/2.jpg",
+      "icon_url": "",
+      "title_color": "",
+      "__v": 0
+    },
+    {
+      "id": 3,
+      "is_in_serving": true,
+      "description": "有求必应",
+      "title": "甜品饮食",
+      "link": "",
+      "image_url": "static/images/nav/3.jpg",
+      "icon_url": "",
+      "title_color": "",
+      "__v": 0
+    },
+    {
+      "id": 4,
+      "is_in_serving": true,
+      "description": "有求必应",
+      "title": "商超便利",
+      "link": "",
+      "image_url": "static/images/nav/4.jpg",
+      "icon_url": "",
+      "title_color": "",
+      "__v": 0
+    },
+    {
+      "id": 5,
+      "is_in_serving": true,
+      "description": "有求必应",
+      "title": "美食",
+      "link": "",
+      "image_url": "static/images/nav/5.jpg",
+      "icon_url": "",
+      "title_color": "",
+      "__v": 0
+    },
+    {
+      "id": 6,
+      "is_in_serving": true,
+      "description": "有求必应",
+      "title": "简餐",
+      "link": "",
+      "image_url": "static/images/nav/6.jpg",
+      "icon_url": "",
+      "title_color": "",
+      "__v": 0
+    },
+    {
+      "id": 7,
+      "is_in_serving": true,
+      "description": "有求必应",
+      "title": "新店特惠",
+      "link": "",
+      "image_url": "static/images/nav/7.jpg",
+      "icon_url": "",
+      "title_color": "",
+      "__v": 0
+    },
+    {
+      "id": 8,
+      "is_in_serving": true,
+      "description": "有求必应",
+      "title": "准时达",
+      "link": "",
+      "image_url": "static/images/nav/8.jpg",
+      "icon_url": "",
+      "title_color": "",
+      "__v": 0
+    },
+    {
+      "id": 9,
+      "is_in_serving": true,
+      "description": "有求必应",
+      "title": "预订早餐",
+      "link": "",
+      "image_url": "static/images/nav/9.jpg",
+      "icon_url": "",
+      "title_color": "",
+      "__v": 0
+    },
+    {
+      "id": 10,
+      "is_in_serving": true,
+      "description": "有求必应",
+      "title": "鸡公煲",
+      "link": "",
+      "image_url": "static/images/nav/10.jpg",
+      "icon_url": "",
+      "title_color": "",
+      "__v": 0
+    },
+    {
+      "id": 11,
+      "is_in_serving": true,
+      "description": "有求必应",
+      "title": "麻辣烫",
+      "link": "",
+      "image_url": "static/images/nav/11.jpg",
+      "icon_url": "",
+      "title_color": "",
+      "__v": 0
+    },
+    {
+      "id": 12,
+      "is_in_serving": true,
+      "description": "有求必应",
+      "title": "肯德基",
+      "link": "",
+      "image_url": "static/images/nav/12.jpg",
+      "icon_url": "",
+      "title_color": "",
+      "__v": 0
+    },
+    {
+      "id": 13,
+      "is_in_serving": true,
+      "description": "有求必应",
+      "title": "麦当劳",
+      "link": "",
+      "image_url": "static/images/nav/13.jpg",
+      "icon_url": "",
+      "title_color": "",
+      "__v": 0
+    },
+    {
+      "id": 14,
+      "is_in_serving": true,
+      "description": "有求必应",
+      "title": "华莱士",
+      "link": "",
+      "image_url": "static/images/nav/14.jpg",
+      "icon_url": "",
+      "title_color": "",
+      "__v": 0
+    },
+    {
+      "id": 15,
+      "is_in_serving": true,
+      "description": "有求必应",
+      "title": "养生会馆",
+      "link": "",
+      "image_url": "static/images/nav/1.jpg",
+      "icon_url": "",
+      "title_color": "",
+      "__v": 0
+    },
+    {
+      "id": 16,
+      "is_in_serving": true,
+      "description": "有求必应",
+      "title": "招牌菜",
+      "link": "",
+      "image_url": "static/images/nav/2.jpg",
+      "icon_url": "",
+      "title_color": "",
+      "__v": 0
+    },
+    {
+      "id": 17,
+      "is_in_serving": true,
+      "description": "有求必应",
+      "title": "凤爪王",
+      "link": "",
+      "image_url": "static/images/nav/3.jpg",
+      "icon_url": "",
+      "title_color": "",
+      "__v": 0
+    }
+  ]
 }

@@ -5,6 +5,12 @@ import Mock from 'mockjs'
 import data from './data'
 import shop from './shop'
 
+// 1、根据经纬度获取位置详情
+Mock.mock('/position',{"result":"SUCCESS","data":data.position});
+
+// 2、获取食品分类列表
+Mock.mock('/index_category',{"result":"SUCCESS","data":data.foodCategory});
+
 // 根据经纬度获取商铺列表
 Mock.mock('/shops',{"result":"SUCCESS","data":data.shops});
 
@@ -36,3 +42,5 @@ Mock.mock('/info',{"result":"SUCCESS","data":data.info})
 // 获取商家商品
 Mock.mock('/goods',{"result":"SUCCESS","data":data.goods})
 
+// 获取商家商品
+Mock.mock('/ratings',{"result":"SUCCESS","data":data.ratings})
